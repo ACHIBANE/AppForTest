@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Produits</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"
+th:href="@{css/bootstrap.min.css}"/>
+
+</head>
+<body>
+<div class="container">
+		<h1 style="color:blue">Saisir les informations sur le produit :</h1>
+		<form name="Form" action="#" th:action="@{/saveproduit}" onsubmit="return validateForm()" th:object="${produit}"
+			method="post">
+			<div class="form-group">
+				<p>
+					<b>Réference:</b> <input id="ref" class="form-control" style="width:200px" type="text"
+						th:field="*{reference}" />
+						<span id="error" style="color:red; display: none;">Il faut remplir le champ</span>
+				</p>
+				<p>
+					<b>Nom:</b> <input id="nom" class="form-control" style="width:200px" type="text" th:field="*{nom}" />
+					<span id="error1" style="color:red; display: none;">Il faut remplir le champ</span>
+				</p>
+				<p>
+					<b>Description:</b> <input id="desc" class="form-control" style="width:200px" type="text"
+						th:field="*{description}" />
+						<span id="error2" style="color:red; display: none;">Il faut remplir le champ</span>
+						
+				</p>
+				<p>
+					<b>Etat:</b> <input id="etat" class="form-control" style="width:200px" type="text" th:field="*{etat}" />
+					<span id="error3" style="color:red; display: none;">Il faut remplir le champ</span>
+				</p>
+				<p>
+					<button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+					 <button type="reset" value="Reset" class="btn btn-warning">Reset</button>
+				</p>
+			</div>
+		</form>
+	</div>
+</body>
+<script>
+function validateForm() {
+    var x1 = document.getElementById("nom").value;
+    var x2 = document.getElementById("ref").value;
+    var x3 = document.getElementById("desc").value;
+    var x4 = document.getElementById("etat").value;
+    if (x1 == "" ||x2 == ""|| x3 == ""||x4 == "") {
+        
+        document.getElementById("error").style.display='inline';
+        document.getElementById("error1").style.display='inline';
+        document.getElementById("error2").style.display='inline';
+        document.getElementById("error3").style.display='inline';
+        return false;
+    }
+}
+</script>
+</html>

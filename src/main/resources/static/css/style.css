@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+body {
+margin:50px;
+padding: 50px;
+background-color:white;
+background-image:url(../image/logo_inpt.jpg);
+background-repeat:no-repeat;
+background-position: 0% 0%;
+}

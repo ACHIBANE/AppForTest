@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Produits</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}" />
+
+</head>
+<body>
+	<div class="container">
+		<h1 style="color:blue">Mettre à jour les informations sur le produit :</h1>
+		<form action="#" th:action="@{/update}" th:object="${prd}"
+			method="post">
+			<div class="form-group">
+				<p>
+					<b>Réference:</b> <input id="ref" class="form-control" style="width:200px" value="{prd.reference}" type="text"
+						th:field="*{reference}" />
+						
+				</p>
+				<p>
+					<b>Nom:</b> <input id="nom" class="form-control" style="width:200px" type="text" th:field="*{nom}" />
+					
+				</p>
+				<p>
+					<b>Description:</b> <input id="desc" class="form-control" style="width:200px" type="text"
+						th:field="*{description}" />
+						
+				</p>
+				<p>
+					<b>Etat:</b> <input id="etat" class="form-control" style="width:200px" type="text" th:field="*{etat}" />
+					
+				</p>
+				<p>
+					<button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+					 <button type="reset" value="Reset" class="btn btn-warning">Reset</button>
+				</p>
+			</div>
+		</form>
+	</div>
+	
+</body>
+</html>
+
