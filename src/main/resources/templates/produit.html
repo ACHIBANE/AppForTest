@@ -17,12 +17,20 @@
 			<div class="form-group">
 				<div>
 					<b>Réference:</b> <input id="ref" class="form-control"
+<<<<<<< HEAD
 						style="width: 200px" type="text" th:field="*{reference}" /> <span id="error"
+=======
+						style="width: 200px" type="text" th:field="*{reference}" />  <span id="error"
+>>>>>>> 728d96958c3cec1e6e826efe8779313872258f5a
 						style="color: red; display: none;">Il faut remplir le champ</span>
 				</div>
 				<div>
 					<b>Nom:</b> <input id="nom" class="form-control"
+<<<<<<< HEAD
 						style="width: 200px" type="text" th:field="*{nom}" /> <span id="error1"
+=======
+						style="width: 200px" type="text" th:field="*{nom}" />  <span id="error1"
+>>>>>>> 728d96958c3cec1e6e826efe8779313872258f5a
 						style="color: red; display: none;">Il faut remplir le champ</span>
 				</div>
 				<div>
@@ -57,20 +65,21 @@
 		var x3 = document.getElementById("desc").value;
 		var x4 = document.getElementById("etat").value;
 		
-		if (!regexp.test(x1) || !regexp.test(x2) || !regexp.test(x3)
-				|| !regexp.test(x4)) {
-				alert("Utiliser que les caratères alphanumériques SVP");
-				return false;
+		if (x1 == "" || x2 == "" || x3 == "" || x4 == "") {
+			
+			document.getElementById("error").style.display = 'inline';
+			document.getElementById("error1").style.display = 'inline';
+			document.getElementById("error2").style.display = 'inline';
+			document.getElementById("error3").style.display = 'inline';
+		
+			return false;
 		}
 		else{ 
-			if (x1 == "" || x2 == "" || x3 == "" || x4 == "") {
-	
-				document.getElementById("error").style.display = 'inline';
-				document.getElementById("error1").style.display = 'inline';
-				document.getElementById("error2").style.display = 'inline';
-				document.getElementById("error3").style.display = 'inline';
-			
-				return false;
+			if 
+			(!regexp.test(x1) || !regexp.test(x2) || !regexp.test(x3)
+					|| !regexp.test(x4)) {
+					alert("Utiliser que les caratères alphanumériques SVP");
+					return false;
 			}
 			
 		}
