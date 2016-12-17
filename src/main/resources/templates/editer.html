@@ -21,21 +21,21 @@
 						
 				</p>
 				<p>
-					<b>Nom:</b> <input id="nom" class="form-control" style="width:200px" type="text" th:field="*{nom}" />
+					<b>Nom:</b> <input id="nom" class="form-control" style="width:200px" value="{prd.nom}" type="text" th:field="*{nom}" />
 					
 				</p>
 				<p>
-					<b>Description:</b> <input id="desc" class="form-control" style="width:200px" type="text"
+					<b>Description:</b> <input id="desc" class="form-control" style="width:200px" value="{prd.description}" type="text"
 						th:field="*{description}" />
 						
 				</p>
 				<p>
-					<b>Etat:</b> <input id="etat" class="form-control" style="width:200px" type="text" th:field="*{etat}" />
+					<b>Etat:</b> <input id="etat" class="form-control" style="width:200px" value="{prd.etat}" type="text" th:field="*{etat}" />
 					
 				</p>
 				<p>
-					<button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-					 <button type="reset" value="Reset" class="btn btn-warning">Reset</button>
+					<button type="submit" value="Submit" class="btn btn-primary">Enregistrer</button>
+					<button type="reset" value="Reset" class="btn btn-warning">Reset</button>
 				</p>
 			</div>
 		</form>

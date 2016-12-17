@@ -60,7 +60,7 @@
 					<td th:text="${p.nom}"></td>
 					<td th:text="${p.description}"></td>
 					<td th:text="${p.etat}"></td>
-					<td><a th:href="@{/editer?reference={reference}(reference=${p.reference})}" class="btn btn-warning">Editer</a> </td>
+					<td><a th:href="@{/editer(reference=${p.reference},nom=${p.nom},description=${p.description},etat=${p.etat})}" class="btn btn-warning">Editer</a> </td>
                     <td><a th:href="@{/delete?reference={reference}(reference=${p.reference})}" class="btn btn-danger">Supprimer</a> </td>
 				</tr>
 			</tbody>
