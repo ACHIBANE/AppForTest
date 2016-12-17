@@ -17,6 +17,10 @@ public class ProduitController {
 	@Autowired
 	private ProduitRepository produitRepository;
 
+	@RequestMapping("/")
+	  public String redirectIndex() {
+	      return "redirect:/index"; 
+	  }
 	
 	@RequestMapping("/index")
   public String produitForm(Model model) {
