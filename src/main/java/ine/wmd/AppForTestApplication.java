@@ -18,7 +18,5 @@ public class AppForTestApplication {
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(AppForTestApplication.class, args);
 		ProduitRepository produitRepository = ctx.getBean(ProduitRepository.class);
-		produitRepository.save(new Produit("prod", "az001", "un produit","d"));
-		produitRepository.findAll().forEach(p->System.out.println(p.getNom()));
-	}
+		}
 }

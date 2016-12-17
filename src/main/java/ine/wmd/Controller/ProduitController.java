@@ -29,19 +29,37 @@ public class ProduitController {
       
   }
 	@RequestMapping("/saveproduit")
-	  public String saveproduit(Model model,@ModelAttribute Produit produit) {
-	      produitRepository.save(produit);
-	      List<Produit> produits = produitRepository.findAll();
-	      model.addAttribute("listeProduits",produits);
-	      return "result";
+	  public String saveproduit(Model model,@RequestParam("reference")String reference, @ModelAttribute Produit produit) {
+		try {
+			//Produit listExistedPrdcts=produitRepository.findByReference(reference);
+			
+			  if(produitRepository.existsByReference(reference)){
+				  
+				  String exist="this reference is already in use, try another one";
+				  model.addAttribute("exist",exist);
+				  return "produit";
+			  }
+			  else{
+			      produitRepository.save(produit);
+			      List<Produit> produits = produitRepository.findAll();
+			      model.addAttribute("listeProduits",produits);
+			      return "result";
+			  }
+			
+		} catch (Exception e) {
+			System.out.println(e);
+			return "produit";
+		}
+		  
 	  }
 	
 	@RequestMapping("/delete")
-	  public String deleteproduit(Model model,@RequestParam("reference")String reference,@ModelAttribute Produit produit) {
+	  public String deleteproduit(Model model,@RequestParam("reference")String reference) {
 		Produit p = produitRepository.findByReference(reference);
 		produitRepository.delete(p); 
 		List<Produit> produits = produitRepository.findAll();
 		model.addAttribute("listeProduits",produits);
+		model.addAttribute("produit", new Produit());
 	      return "result";
 	  }
 
@@ -52,14 +70,23 @@ public class ProduitController {
 								  @RequestParam("etat")String etat,
 	  							  @ModelAttribute Produit produit){
 		Produit prd = produitRepository.findByReference(reference);
-		prd.setReference(reference);
-		prd.setNom(nom);
-		prd.setDescription(description);
-		prd.setEtat(etat);
-		List<Produit> produits = produitRepository.findAll();
-		model.addAttribute("listeProduits",produits);
+//		if(produitRepository.existsByReference(reference)){
+//			  
+//			  String exist="this reference is already in use, try another one";
+//			  model.addAttribute("exist",exist);
+//			
+//			  return "editer";
+//		  }
+//		else{
+//			prd.setReference(reference);
+			prd.setNom(nom);
+			prd.setDescription(description);
+			prd.setEtat(etat);
+			List<Produit> produits = produitRepository.findAll();
+			model.addAttribute("listeProduits",produits);
+			
+		    return "result";
 		
-	    return "result";
 	  }
 	@RequestMapping("/editer")
 	  public String editerproduit(Model model,@RequestParam("reference")String reference) {
