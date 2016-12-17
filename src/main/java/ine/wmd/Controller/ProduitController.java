@@ -40,20 +40,7 @@ public class ProduitController {
 		model.addAttribute("listeProduits",produits);
 	      return "result";
 	  }
-//	@RequestMapping("/editer")
-//	  public String editerproduit(Model model,@RequestParam("prd")Produit prd,@ModelAttribute Produit produit) {
-//		produitRepository.saveAndFlush(produit);
-//		Produit prd = produitRepository.findByReference(reference);
-//		prd.setReference(produit.getReference());
-//		prd.setNom(produit.getNom());
-//		prd.setDescription(produit.getDescription());
-//		prd.setEtat(produit.getEtat());
-//		System.out.println(prd.getNom())
-//		produitRepository.save(prd); 
-//		List<Produit> produits = produitRepository.findAll();
-//		model.addAttribute("listeProduit",produits);
-//	    return "listeproduit";
-//	  }
+
 	@RequestMapping("/update")
 	  public String editerproduit(Model model,@RequestParam("reference")String reference,
 								  @RequestParam("nom")String nom,
