@@ -22,6 +22,11 @@ public class ProduitController {
 	      return "redirect:/index"; 
 	  }
 	
+	@RequestMapping("/login")
+	  public String login() {
+	      return "login"; 
+	  }
+	
 	@RequestMapping("/index")
   public String produitForm(Model model) {
       model.addAttribute("produit", new Produit());

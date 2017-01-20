@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Produits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"/>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}" />
+
+</head>
+<body class="container">
+<div id="content">
+             
+     <div id="content_main">
+                  
+         <h2>BIENVENUE SUR L'APPLICATION DE GESTION DE <span style="color: blue;">PRODUITS</span>.</h2>
+         <p></p>
+         <h4 style="color: deeppink">Cette Application permet:</h4><p></p>
+             <ul>
+                 <li>d'<b>Ajouter</b> des Produits.</li>
+                 <li>de <b>Supprimer</b> des Produits.</li>
+                 <li>de <b>Modifier</b> des Produits.</li>
+            	 <li>de <b>Consulter</b> la liste des Produits.</li>
+            </ul>
+      </div>
+            
+</div>
+<button onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-blue w3-large">Se Connecter</button>
+<div id="id01" class="w3-modal">
+  <span onclick="document.getElementById('id01').style.display='none'" 
+  class="w3-closebtn w3-hover-red w3-container w3-padding-hor-16 w3-display-topright w3-xxlarge">×</span>
+  <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
+  
+ 
+    <div class="w3-container">
+      <div class="w3-section">
+          <form action="metier/loginVerif.php" method="post">
+        <label><b>Nom d'utilisateur</b></label>
+        <input name="username" class="w3-input w3-border w3-hover-border-black w3-margin-bottom" type="text" placeholder="Nom d'utilisateur"/>
+
+        <label><b>Mot de passe</b></label>
+        <input name="password" class="w3-input w3-border w3-hover-border-black" type="password" placeholder="Mot de passe"/>
+        
+        <button type="submit" class="w3-btn w3-btn-block w3-blue w3-section" role="button">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="w3-container w3-border-top w3-padding-hor-16 w3-light-grey">
+     <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-btn w3-red">Annuler</button>
+      
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
