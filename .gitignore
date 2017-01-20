@@ -8,7 +8,7 @@ target/
 .project
 .settings
 .springBeans
-*.properties
+application.properties
 
 ### IntelliJ IDEA ###
 .idea
