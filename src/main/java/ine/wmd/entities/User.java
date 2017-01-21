@@ -1,8 +1,9 @@
 package ine.wmd.entities;
 
+import java.io.Serializable;
 import java.security.Principal;
 
-public class User implements Principal {
+public class User implements Principal, Serializable {
 	
 	String login;
 	String pswd;
@@ -10,6 +11,10 @@ public class User implements Principal {
 	public User(String login, String pswd) {
 		this.login = login;
 		this.pswd = pswd;
+	}
+
+	public User() {
+	
 	}
 
 	public String getLogin() {

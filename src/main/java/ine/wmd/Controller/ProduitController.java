@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ine.wmd.dao.ProduitRepository;
 import ine.wmd.entities.Produit;
+import ine.wmd.entities.User;
 
 @Controller
 public class ProduitController {
@@ -21,10 +22,22 @@ public class ProduitController {
 	  public String redirectIndex() {
 	      return "redirect:/index"; 
 	  }
-	
 	@RequestMapping("/login")
 	  public String login() {
 	      return "login"; 
+	  }
+	
+	@RequestMapping("/indextest")
+	  public String test(Model model, @ModelAttribute User user) {
+		model.addAttribute("user", user);
+		String username = user.getLogin();
+		String password = user.getPswd();
+		if (!(username =="")){
+			System.out.println(username);
+	     	return "login"; }
+		else{
+			return "erreur";
+		}
 	  }
 	
 	@RequestMapping("/index")
@@ -36,7 +49,6 @@ public class ProduitController {
 	@RequestMapping("/saveproduit")
 	  public String saveproduit(Model model,@RequestParam("reference")String reference, @ModelAttribute Produit produit) {
 		try {
-			//Produit listExistedPrdcts=produitRepository.findByReference(reference);
 			
 			  if(produitRepository.existsByReference(reference)){
 				  
