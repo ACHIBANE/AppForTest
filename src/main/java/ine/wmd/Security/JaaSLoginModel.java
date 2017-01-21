@@ -11,21 +11,20 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import ine.wmd.dao.UserRepository;
 import ine.wmd.entities.User;
 
+public class JaaSLoginModel implements LoginModule{
 
-public class JaaSLoginModel implements LoginModule {
-
-	@Autowired
-	private UserRepository userRepository;
+ private String lg = "user123";
+ private String ps = "user123";
 	
-	    private CallbackHandler callbackHandler;
-	    private boolean succeeded = false;
-	    
+	private CallbackHandler callbackHandler;
+	private boolean succeeded = false;
+//	private UserRepository userRepository;
+
+
 	@Override
 	public boolean abort() throws LoginException {
 		// TODO Auto-generated method stub
@@ -35,75 +34,79 @@ public class JaaSLoginModel implements LoginModule {
 	@Override
 	public boolean commit() throws LoginException {
 		// TODO Auto-generated method stub
-		return false;
+		return succeeded;
 	}
 
 	@Override
-	  public void initialize(Subject subject,
-              CallbackHandler callbackHandler,
-                    Map<java.lang.String, ?> sharedState,
-                    Map<java.lang.String, ?> options) {
+	public void initialize(Subject subject, CallbackHandler callbackHandler, Map<java.lang.String, ?> sharedState,
+			Map<java.lang.String, ?> options) {
 
+		this.callbackHandler = callbackHandler;
+		succeeded = false;
 
-   this.callbackHandler = callbackHandler;
-   succeeded = false;
-
- 
 	}
 
 	@Override
 	public boolean login() throws LoginException {
+		userRepository = null;
+
+		if (callbackHandler == null) {
+			throw new LoginException("Oops, callbackHandler is null!");
+		}
+
+		Callback[] callbacks = new Callback[2];
+		callbacks[0] = new NameCallback("login");
+		callbacks[1] = new PasswordCallback("pswd", false);
+
+		try {
+			callbackHandler.handle(callbacks);
+		} catch (IOException e) {
+			throw new LoginException("IOException calling handle on callbackHandler");
+		} catch (UnsupportedCallbackException e) {
+			throw new LoginException("UnsupportedCallbackException calling handle on callbackHandler");
+		}
+
+		NameCallback loginCallback = (NameCallback) callbacks[0];
+		PasswordCallback pswdCallback = (PasswordCallback) callbacks[1];
+
+		String login = loginCallback.getName();
+		String password = new String(pswdCallback.getPassword());
+
+		// don't ever do this in a real application!
 		
-		   if (callbackHandler == null) {
-               throw new LoginException("Oops, callbackHandler is null!");
-       }
-
-       Callback[] callbacks = new Callback[2];
-       callbacks[0] = new NameCallback("login");
-       callbacks[1] = new PasswordCallback("pswd", false);
-
-       try {
-               callbackHandler.handle(callbacks);
-       } catch (IOException e) {
-               throw new LoginException("IOException calling handle on callbackHandler");
-       } catch (UnsupportedCallbackException e) {
-               throw new LoginException("UnsupportedCallbackException calling handle on callbackHandler");
-       }
-
-       NameCallback loginCallback = (NameCallback) callbacks[0];
-       PasswordCallback pswdCallback = (PasswordCallback) callbacks[1];
-
-       String login = loginCallback.getName();
-       String password = new String(pswdCallback.getPassword());
-
-       	//CHECK DB USERS
-       
-       User usr  = userRepository.findByLogin(login);
-//       User usr =new User("achibane", "achi");
-       if(usr!=null){
-       String l = usr.getLogin();
-       String p = usr.getPswd();
-       
-       if (l.equals(login) && p.equals(password)) {
-               succeeded = true;
-               return succeeded;
-       } else {
-               succeeded = false;
-               throw new FailedLoginException("Login failed! You may not log in.");}
-       }
-       else{
-    	   succeeded = false;
-    	   throw new FailedLoginException("Login failed! You may not log in.");
-       }
-	
+//		User usr =new User(); 
+//		usr=userRepository.findByLogin(login);
+//		
+//		if (usr != null) {
+//			String l = usr.getLogin();
+//			String p = usr.getPswd();
+//
+//			if (l.equals(login) && p.equals(password)) {
+//				succeeded = true;
+//				return succeeded;
+//			} else {
+//				succeeded = false;
+//				throw new FailedLoginException("Login failed! You may not log in.");
+//			}
+//		} else {
+//			succeeded = false;
+//			throw new FailedLoginException("Login failed! You may not log in.");
+//		}
+		 if (lg.equals(login) && ps.equals(password)) {
+		 succeeded = true;
+		 return succeeded;
+		 } else {
+		 succeeded = false;
+		 throw new FailedLoginException("Login failed! You may not log in.");
+		 }
 	}
-	
-	
-	
+
+
 	@Override
 	public boolean logout() throws LoginException {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

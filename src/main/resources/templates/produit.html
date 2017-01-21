@@ -17,15 +17,15 @@
 			<div class="form-group">
 				<div>
 					<b>Réference:</b> <input id="ref" class="form-control"
-						style="width: 200px" type="text" th:field="*{reference}" />  <span id="error"
-						style="color: red; display: none;">Il faut remplir le champ</span>
-						
-						<span th:text="${exist}" style="color: red;"></span>
+						style="width: 200px" type="text" th:field="*{reference}" /> <span
+						id="error" style="color: red; display: none;">Il faut
+						remplir le champ</span> <span th:text="${exist}" style="color: red;"></span>
 				</div>
 				<div>
 					<b>Nom:</b> <input id="nom" class="form-control"
-						style="width: 200px" type="text" th:field="*{nom}" /> <span id="error1"
-						style="color: red; display: none;">Il faut remplir le champ</span>
+						style="width: 200px" type="text" th:field="*{nom}" /> <span
+						id="error1" style="color: red; display: none;">Il faut
+						remplir le champ</span>
 				</div>
 				<div>
 					<b>Description:</b> <input id="desc" class="form-control"
@@ -41,13 +41,16 @@
 						remplir le champ</span>
 				</div>
 				<p></p>
-				<div class="container">
+				
 					<button type="submit" value="Submit" class="btn btn-primary">Submit</button>
 					<button type="reset" value="Reset" class="btn btn-warning">Reset</button>
-				</div>
+					<a th:href="@{/getProduits}" class="btn btn-success">Liste Produits </a>
 			</div>
 		</form>
+		
+		
 	</div>
+	
 </body>
 <script>
 	function validateForm() {

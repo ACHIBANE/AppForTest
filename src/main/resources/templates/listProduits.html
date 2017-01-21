@@ -9,7 +9,7 @@
 	th:href="@{css/bootstrap.min.css}" />
 
 </head>
-<body>
+<body class="container">
 	<div class="container">
 		<h1 style="color: blue">Saisir les informations sur le produit :</h1>
 		<form name="Form" action="#" th:action="@{/saveproduit}"
@@ -17,15 +17,15 @@
 			<div class="form-group">
 				<div>
 					<b>Réference:</b> <input id="ref" class="form-control"
-						style="width: 200px" type="text" th:field="*{reference}" />  <span id="error"
-						style="color: red; display: none;">Il faut remplir le champ</span>
-						
-						<span th:text="${exist}" style="color: red;">Reference exist already, try again :)</span>
+						style="width: 200px" type="text" th:field="*{reference}" /> <span
+						id="error" style="color: red; display: none;">Il faut
+						remplir le champ</span> <span th:text="${exist}" style="color: red;"></span>
 				</div>
 				<div>
 					<b>Nom:</b> <input id="nom" class="form-control"
-						style="width: 200px" type="text" th:field="*{nom}" /> <span id="error1"
-						style="color: red; display: none;">Il faut remplir le champ</span>
+						style="width: 200px" type="text" th:field="*{nom}" /> <span
+						id="error1" style="color: red; display: none;">Il faut
+						remplir le champ</span>
 				</div>
 				<div>
 					<b>Description:</b> <input id="desc" class="form-control"
@@ -40,14 +40,16 @@
 						id="error3" style="color: red; display: none;">Il faut
 						remplir le champ</span>
 				</div>
-					<p></p>
+				<p></p>
 				
 					<button type="submit" value="Submit" class="btn btn-primary">Submit</button>
 					<button type="reset" value="Reset" class="btn btn-warning">Reset</button>
 					<a th:href="@{/getProduits}" class="btn btn-success">Liste Produits </a>
+				
 			</div>
 		</form>
-	</div>
+		
+		</div>
 	<div class="container">
 		<h2>LISTE DES PRODUITS</h2>
 		<table class="table table-hover" style="width: 650px">
@@ -58,8 +60,8 @@
 					<th>Description</th>
 					<th>Etat</th>
 					<th>Editer</th>
-             		<th>Supprimer</th>
-             		
+					<th>Supprimer</th>
+
 				</tr>
 			</thead>
 			<tbody>
@@ -68,8 +70,13 @@
 					<td th:text="${p.nom}"></td>
 					<td th:text="${p.description}"></td>
 					<td th:text="${p.etat}"></td>
-					<td><a th:href="@{/editer(reference=${p.reference},nom=${p.nom},description=${p.description},etat=${p.etat})}" class="btn btn-warning">Editer</a> </td>
-                    <td><a onclick="return confirm('êtes-vous sûr de supprimer ce produit ?')" th:href="@{/delete?reference={reference}(reference=${p.reference})}" class="btn btn-danger">Supprimer</a> </td>
+					<td><a
+						th:href="@{/editer(reference=${p.reference},nom=${p.nom},description=${p.description},etat=${p.etat})}"
+						class="btn btn-warning">Editer</a></td>
+					<td><a
+						onclick="return confirm('êtes-vous sûr de supprimer ce produit ?')"
+						th:href="@{/delete?reference={reference}(reference=${p.reference})}"
+						class="btn btn-danger">Supprimer</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -80,10 +87,10 @@
 		var regexp = /(?=.*[a-zA-Z0-9])(?=.*[^!%$^=#])/;
 		/* var regEx= new RegEx(pattern,'i'); */
 
-		var x1 = document.getElementById("nom").value,
-		 x2 = document.getElementById("ref").value,
-		 x3 = document.getElementById("desc").value,
-		 x4 = document.getElementById("etat").value;
+		var x1 = document.getElementById("nom").value;
+		var x2 = document.getElementById("ref").value;
+		var x3 = document.getElementById("desc").value;
+		var x4 = document.getElementById("etat").value;
 		
 		if (x1 == "" || x2 == "" || x3 == "" || x4 == "") {
 			
@@ -104,12 +111,5 @@
 			
 		}
 	}
-	/* function reset(){
-		document.getElementById("nom").value="";
-		document.getElementById("ref").value="";
-		document.getElementById("desc").value="";
-		document.getElementById("etat").value="";
-	} */
 </script>
 </html>
-

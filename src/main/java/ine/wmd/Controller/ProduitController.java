@@ -1,5 +1,8 @@
 package ine.wmd.Controller;
 
+import ine.wmd.Security.JaaSCallBackHandler;
+import ine.wmd.Security.JaaSLoginModel;
+
 import java.util.List;
 
 import javax.security.auth.login.LoginContext;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ine.wmd.Security.JaaSCallBackHandler;
 import ine.wmd.dao.ProduitRepository;
 import ine.wmd.entities.Produit;
 import ine.wmd.entities.User;
@@ -23,14 +25,21 @@ public class ProduitController {
 	private ProduitRepository produitRepository;
 
 	@RequestMapping("/")
-	  public String redirectIndex() {
-	      return "redirect:/index"; 
-	  }
+	public String redirectIndex() {
+		return "redirect:/index";
+	}
+
+	@RequestMapping("/welcome")
+	public String redirectIndex(Model model) {
+		model.addAttribute("produit", new Produit());
+		return "produit";
+	}
+
 	@RequestMapping("/login")
-	  public String loginn(@ModelAttribute User user) {
-		
+	public String loginn(Model model, @ModelAttribute User user) {
 		String username = user.getLogin();
 		String password = user.getPswd();
+
 		if (!(username =="") && !(password == "")){
 			
 			LoginContext lc = null;
@@ -41,7 +50,7 @@ public class ProduitController {
 		          
 		          System.out.println(username);
 		          System.out.println("sed9aaaat");
-		          return "login"; 
+		          return "redirect:/welcome";
 		          
 		      } catch (LoginException le) {
 		          System.err.println("Cannot create LoginContext. loginEX " + le.getMessage());
@@ -56,76 +65,79 @@ public class ProduitController {
 			
 			}else{
 			return "erreur";
+
 			}
-	  }
-	
-	@RequestMapping("/indextest")
-	  public String test(Model model, @ModelAttribute User user) {
-		model.addAttribute("user", user);
-		return "login"; 
-	  }
-	
+
+	}
+
 	@RequestMapping("/index")
-  public String produitForm(Model model) {
-      model.addAttribute("produit", new Produit());
-      return "produit";
-      
-  }
+	public String accueil(Model model, @ModelAttribute User user) {
+		model.addAttribute("user", user);
+		return "login";
+	}
+	
 	@RequestMapping("/saveproduit")
-	  public String saveproduit(Model model,@RequestParam("reference")String reference, @ModelAttribute Produit produit) {
+	public String saveproduit(Model model, @RequestParam("reference") String reference,
+			@ModelAttribute Produit produit) {
 		try {
-			
-			  if(produitRepository.existsByReference(reference)){
-				  
-				  String exist="this reference is already in use, try another one";
-				  model.addAttribute("exist",exist);
-				  return "produit";
-			  }
-			  else{
-			      produitRepository.save(produit);
-			      List<Produit> produits = produitRepository.findAll();
-			      model.addAttribute("listeProduits",produits);
-			      return "result";
-			  }
-			
+			if (produitRepository.existsByReference(reference)) {
+
+				String exist = "this reference is already in use, try another one";
+				model.addAttribute("exist", exist);
+				return "produit";
+			} else {
+				produitRepository.save(produit);
+				List<Produit> produits = produitRepository.findAll();
+				model.addAttribute("listeProduits", produits);
+				return "result";
+			}
+
 		} catch (Exception e) {
 			System.out.println(e);
 			return "produit";
 		}
-		  
-	  }
+
+	}
+	
+	@RequestMapping("/getProduits")
+	public String getProduits(Model model, @ModelAttribute Produit produit) {
+		
+		List<Produit> produits = produitRepository.findAll();
+		model.addAttribute("listeProduits", produits);
+		return "listProduits";
+	}
 	
 	@RequestMapping("/delete")
-	  public String deleteproduit(Model model,@RequestParam("reference")String reference) {
+	public String deleteproduit(Model model, @RequestParam("reference") String reference) {
 		Produit p = produitRepository.findByReference(reference);
-		produitRepository.delete(p); 
+		produitRepository.delete(p);
 		List<Produit> produits = produitRepository.findAll();
-		model.addAttribute("listeProduits",produits);
+		model.addAttribute("listeProduits", produits);
 		model.addAttribute("produit", new Produit());
-	      return "result";
-	  }
-
+		return "result";
+	}
+	
 	@RequestMapping("/update")
-	  public String editerproduit(Model model,@RequestParam("reference")String reference,
-								  @RequestParam("nom")String nom,
-								  @RequestParam("description")String description,
-								  @RequestParam("etat")String etat,
-	  							  @ModelAttribute Produit produit){
+	public String editerproduit(Model model, @RequestParam("reference") String reference,
+			@RequestParam("nom") String nom, @RequestParam("description") String description,
+			@RequestParam("etat") String etat, @ModelAttribute Produit produit) {
 		Produit prd = produitRepository.findByReference(reference);
+
 
 			prd.setNom(nom);
 			prd.setDescription(description);
 			prd.setEtat(etat);
 			List<Produit> produits = produitRepository.findAll();
 			model.addAttribute("listeProduits",produits);
-			
+		
 		    return "result";
 		
 	  }
+
 	@RequestMapping("/editer")
-	  public String editerproduit(Model model,@RequestParam("reference")String reference) {
-		Produit p = produitRepository.findByReference(reference); 
-		model.addAttribute("prd",p);
-	    return "editer";
-	  }
+	public String editerproduit(Model model, @RequestParam("reference") String reference) {
+		Produit p = produitRepository.findByReference(reference);
+		model.addAttribute("prd", p);
+		return "editer";
+	}
 }
