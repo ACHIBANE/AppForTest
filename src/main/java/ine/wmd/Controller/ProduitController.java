@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ine.wmd.dao.ProduitRepository;
 import ine.wmd.entities.Produit;
+import ine.wmd.entities.User;
 
 @Controller
 public class ProduitController {
@@ -23,15 +24,19 @@ public class ProduitController {
 	  }
 	
 	@RequestMapping("/login")
-	  public String login() {
-	      return "login"; 
+	  public String login(Model model) {
+		 model.addAttribute("user", new User());
+	      return "login";
 	  }
-	
+	@RequestMapping("/testlogin")
+	  public String testLogin(Model model, @ModelAttribute User user) {
+		 System.out.println(user.getPswd());
+		return "index";
+	  }
 	@RequestMapping("/index")
   public String produitForm(Model model) {
       model.addAttribute("produit", new Produit());
       return "produit";
-      
   }
 	@RequestMapping("/saveproduit")
 	  public String saveproduit(Model model,@RequestParam("reference")String reference, @ModelAttribute Produit produit) {
