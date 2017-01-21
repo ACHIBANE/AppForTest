@@ -19,5 +19,6 @@ public class AppForTestApplication {
 		System.setProperty("java.security.auth.login.config", "jaas.config");
 		ApplicationContext ctx = SpringApplication.run(AppForTestApplication.class, args);
 		ProduitRepository produitRepository = ctx.getBean(ProduitRepository.class);
+		
 		}
 }

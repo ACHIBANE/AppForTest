@@ -47,10 +47,41 @@
 				</div>
 			</div>
 		</form>
-		<a type="submit" value="Submit" th:href="@{/getProduits}"
-						class="btn btn-success">Liste Produits </a>
+		<div> <a type="submit" value="Submit" th:href="@{/getProduits}"
+						class="btn btn-success" style="float: right;">Liste Produits </a>
+		</div>
 	</div>
-	
+	<div class="container">
+		<h2>LISTE DES PRODUITS</h2>
+		<table class="table table-hover" style="width: 650px">
+			<thead>
+				<tr>
+					<th>Réference</th>
+					<th>Nom</th>
+					<th>Description</th>
+					<th>Etat</th>
+					<th>Editer</th>
+					<th>Supprimer</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="p:${listeProduits}">
+					<td th:text="${p.reference}"></td>
+					<td th:text="${p.nom}"></td>
+					<td th:text="${p.description}"></td>
+					<td th:text="${p.etat}"></td>
+					<td><a
+						th:href="@{/editer(reference=${p.reference},nom=${p.nom},description=${p.description},etat=${p.etat})}"
+						class="btn btn-warning">Editer</a></td>
+					<td><a
+						onclick="return confirm('êtes-vous sûr de supprimer ce produit ?')"
+						th:href="@{/delete?reference={reference}(reference=${p.reference})}"
+						class="btn btn-danger">Supprimer</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 <script>
 	function validateForm() {
