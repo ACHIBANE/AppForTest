@@ -2,6 +2,9 @@ package ine.wmd.Controller;
 
 import java.util.List;
 
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ine.wmd.Security.JaaSCallBackHandler;
+import ine.wmd.Security.JaaSLoginModel;
 import ine.wmd.dao.ProduitRepository;
 import ine.wmd.entities.Produit;
 import ine.wmd.entities.User;
@@ -23,21 +28,43 @@ public class ProduitController {
 	      return "redirect:/index"; 
 	  }
 	@RequestMapping("/login")
-	  public String login() {
-	      return "login"; 
+	  public String loginn(@ModelAttribute User user) {
+		
+		String username = user.getLogin();
+		String password = user.getPswd();
+		if (!(username =="")){
+			
+			LoginContext lc = null;
+		      try {
+		          lc = new LoginContext("AppForTest", new JaaSCallBackHandler(username, password));
+		         
+		          lc.login();
+		          
+		          System.out.println(username);
+		          System.out.println("sed9aaaat");
+		          return "login"; 
+		          
+		      } catch (LoginException le) {
+		          System.err.println("Cannot create LoginContext. loginEX "
+		              + le.getMessage());
+		          
+		          return "erreur";
+		          
+		      } catch (SecurityException se) {
+		          System.err.println("Cannot create LoginContext. SecurityEX"
+		              + se.getMessage());
+		          return "erreur";
+		      }
+			
+			}else{
+			return "erreur";
+			}
 	  }
 	
 	@RequestMapping("/indextest")
 	  public String test(Model model, @ModelAttribute User user) {
 		model.addAttribute("user", user);
-		String username = user.getLogin();
-		String password = user.getPswd();
-		if (!(username =="")){
-			System.out.println(username);
-	     	return "login"; }
-		else{
-			return "erreur";
-		}
+		return "login"; 
 	  }
 	
 	@RequestMapping("/index")
