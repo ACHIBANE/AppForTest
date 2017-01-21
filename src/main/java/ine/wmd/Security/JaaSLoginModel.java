@@ -11,8 +11,17 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
+import ine.wmd.dao.UserRepository;
+import ine.wmd.entities.User;
+
+
 public class JaaSLoginModel implements LoginModule {
 
+	@Autowired
+	private UserRepository userRepository;
 	
 	    private CallbackHandler callbackHandler;
 	    private boolean succeeded = false;
@@ -67,16 +76,29 @@ public class JaaSLoginModel implements LoginModule {
        String login = loginCallback.getName();
        String password = new String(pswdCallback.getPassword());
 
- //don't ever do this in a real application!
-       if ("ghani".equals(login) && "ghani".equals(password)) {
+       	//CHECK DB USERS
+       
+       User usr  = userRepository.findByLogin(login);
+//       User usr =new User("achibane", "achi");
+       if(usr!=null){
+       String l = usr.getLogin();
+       String p = usr.getPswd();
+       
+       if (l.equals(login) && p.equals(password)) {
                succeeded = true;
                return succeeded;
        } else {
                succeeded = false;
-               throw new FailedLoginException("Login failed! You may not log in.");
+               throw new FailedLoginException("Login failed! You may not log in.");}
        }
+       else{
+    	   succeeded = false;
+    	   throw new FailedLoginException("Login failed! You may not log in.");
+       }
+	
 	}
-
+	
+	
 	
 	@Override
 	public boolean logout() throws LoginException {

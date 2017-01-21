@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ine.wmd.Security.JaaSCallBackHandler;
-import ine.wmd.Security.JaaSLoginModel;
 import ine.wmd.dao.ProduitRepository;
 import ine.wmd.entities.Produit;
 import ine.wmd.entities.User;
@@ -32,7 +31,7 @@ public class ProduitController {
 		
 		String username = user.getLogin();
 		String password = user.getPswd();
-		if (!(username =="")){
+		if (!(username =="") && !(password == "")){
 			
 			LoginContext lc = null;
 		      try {
@@ -45,14 +44,13 @@ public class ProduitController {
 		          return "login"; 
 		          
 		      } catch (LoginException le) {
-		          System.err.println("Cannot create LoginContext. loginEX "
-		              + le.getMessage());
+		          System.err.println("Cannot create LoginContext. loginEX " + le.getMessage());
 		          
 		          return "erreur";
 		          
 		      } catch (SecurityException se) {
-		          System.err.println("Cannot create LoginContext. SecurityEX"
-		              + se.getMessage());
+		          System.err.println("Cannot create LoginContext. SecurityEX" + se.getMessage());
+		          
 		          return "erreur";
 		      }
 			
@@ -114,15 +112,7 @@ public class ProduitController {
 								  @RequestParam("etat")String etat,
 	  							  @ModelAttribute Produit produit){
 		Produit prd = produitRepository.findByReference(reference);
-//		if(produitRepository.existsByReference(reference)){
-//			  
-//			  String exist="this reference is already in use, try another one";
-//			  model.addAttribute("exist",exist);
-//			
-//			  return "editer";
-//		  }
-//		else{
-//			prd.setReference(reference);
+
 			prd.setNom(nom);
 			prd.setDescription(description);
 			prd.setEtat(etat);
