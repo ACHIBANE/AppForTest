@@ -22,7 +22,6 @@ public class ProduitController {
 	  public String redirectIndex() {
 	      return "redirect:/index"; 
 	  }
-	
 	@RequestMapping("/login")
 	  public String login(Model model) {
 		 model.addAttribute("user", new User());
@@ -33,15 +32,24 @@ public class ProduitController {
 		 System.out.println(user.getPswd());
 		return "index";
 	  }
-	@RequestMapping("/index")
-  public String produitForm(Model model) {
-      model.addAttribute("produit", new Produit());
-      return "produit";
-  }
+	
+	@RequestMapping("/indextest")
+	  public String test(Model model, @ModelAttribute User user) {
+		model.addAttribute("user", user);
+		String username = user.getLogin();
+		String password = user.getPswd();
+		if (!(username =="")){
+			System.out.println(username);
+	     	return "login"; }
+		else{
+			return "erreur";
+		}
+	  }
+	
+
 	@RequestMapping("/saveproduit")
 	  public String saveproduit(Model model,@RequestParam("reference")String reference, @ModelAttribute Produit produit) {
 		try {
-			//Produit listExistedPrdcts=produitRepository.findByReference(reference);
 			
 			  if(produitRepository.existsByReference(reference)){
 				  

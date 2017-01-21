@@ -37,17 +37,13 @@
  
     <div class="w3-container">
       <div class="w3-section">
-          <form action="#" th:action="@{/testlogin}"
-			 th:object="${user}" method="post">
+
+          <form action="#" th:action="@{/indextest}" th:object="${user}" method="post">
         <label><b>Nom d'utilisateur</b></label>
-        <input name="username" class="w3-input w3-border w3-hover-border-black w3-margin-bottom" 
-        type="text" th:field="*{login}"
-        placeholder="Nom d'utilisateur"/>
+        <input name="username" class="w3-input w3-border w3-hover-border-black w3-margin-bottom" type="text" th:field="*{login}"  placeholder="Nom d'utilisateur"/>
 
         <label><b>Mot de passe</b></label>
-        <input name="password" class="w3-input w3-border w3-hover-border-black" 
-        type="password" th:field="*{pswd}"
-        placeholder="Mot de passe"/>
+        <input name="password" class="w3-input w3-border w3-hover-border-black" type="password" th:field="*{pswd}" placeholder="Mot de passe"/>
         
         <button type="submit" class="w3-btn w3-btn-block w3-blue w3-section" role="button">Login</button>
         </form>
