@@ -1,4 +1,6 @@
 package ine.wmd.Controller;
+import ine.wmd.Security.JaaSCallBackHandler;
+import ine.wmd.Security.JaaSLoginModel;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ine.wmd.dao.ProduitRepository;
 import ine.wmd.entities.Produit;
 import ine.wmd.entities.User;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 
 @Controller
 public class ProduitController {
@@ -34,16 +38,29 @@ public class ProduitController {
 	  }
 	
 	@RequestMapping("/indextest")
-	  public String test(Model model, @ModelAttribute User user) {
+	  public String test(Model model, @ModelAttribute User user)  {
 		model.addAttribute("user", user);
 		String username = user.getLogin();
 		String password = user.getPswd();
-		if (!(username =="")){
-			System.out.println(username);
-	     	return "login"; }
-		else{
+		JaaSCallBackHandler cbh= new JaaSCallBackHandler(username, password);
+		LoginContext logincontext;
+		try {
+			logincontext = new LoginContext("AppForTest",cbh);
+			logincontext.login();
+			return "login";
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return "erreur";
 		}
+		
+		
+//		if (!(username =="")){
+//			System.out.println(username);
+//	     	return "login"; }
+//		else{
+//			return "erreur";
+//		}
 	  }
 	
 

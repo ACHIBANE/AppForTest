@@ -7,10 +7,7 @@ public class User implements Principal, Serializable {
 	
 	String login;
 	String pswd;
-	
-	public User(){
-	}
-	
+
 	public User(String login, String pswd) {
 		this.login = login;
 		this.pswd = pswd;
