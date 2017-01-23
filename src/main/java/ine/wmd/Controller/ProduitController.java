@@ -11,6 +11,7 @@ import javax.security.auth.login.LoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,26 +40,32 @@ public class ProduitController {
 	public String loginn(Model model, @ModelAttribute User user) {
 		String username = user.getLogin();
 		String password = user.getPswd();
-		if (!(username == "")) {
+
+		if (!(username =="") && !(password == "")){
+			
 			LoginContext lc = null;
-			try {
-				lc = new LoginContext("AppForTest", new JaaSCallBackHandler(username, password));
+		      try {
+		          lc = new LoginContext("AppForTest", new JaaSCallBackHandler(username, password));
+		         
+		          lc.login();
+		          return "redirect:/welcome";
+		          
+		      } catch (LoginException le) {
+		          System.err.println("Cannot create LoginContext. loginEX " + le.getMessage());
+		          
+		          return "erreur";
+		          
+		      } catch (SecurityException se) {
+		          System.err.println("Cannot create LoginContext. SecurityEX" + se.getMessage());
+		          
+		          return "erreur";
+		      }
+			
+			}else{
+			return "erreur";
 
-				lc.login();
-				return "redirect:/welcome";
-
-			} catch (LoginException le) {
-				System.err.println("Cannot create LoginContext. loginEX " + le.getMessage());
-				return "erreur";
-
-			} catch (SecurityException se) {
-				System.err.println("Cannot create LoginContext. SecurityEX" + se.getMessage());
-				return "erreur";
 			}
 
-		} else {
-			return "erreur";
-		}
 	}
 
 	@RequestMapping("/index")
@@ -70,6 +77,7 @@ public class ProduitController {
 	@RequestMapping("/saveproduit")
 	public String saveproduit(Model model, @RequestParam("reference") String reference,
 			@ModelAttribute Produit produit) {
+		
 		try {
 			if (produitRepository.existsByReference(reference)) {
 
@@ -83,9 +91,9 @@ public class ProduitController {
 				return "result";
 			}
 
-		} catch (Exception e) {
+		}catch (Exception e) {
 			System.out.println(e);
-			return "produit";
+			return "index";
 		}
 
 	}
@@ -96,6 +104,10 @@ public class ProduitController {
 		List<Produit> produits = produitRepository.findAll();
 		model.addAttribute("listeProduits", produits);
 		return "listProduits";
+	}
+	@RequestMapping("/*")
+	public String erreur() {
+		return "redirect:/index";
 	}
 	
 	@RequestMapping("/delete")
@@ -113,15 +125,17 @@ public class ProduitController {
 			@RequestParam("nom") String nom, @RequestParam("description") String description,
 			@RequestParam("etat") String etat, @ModelAttribute Produit produit) {
 		Produit prd = produitRepository.findByReference(reference);
-		prd.setNom(nom);
-		prd.setDescription(description);
-		prd.setEtat(etat);
-		List<Produit> produits = produitRepository.findAll();
-		model.addAttribute("listeProduits", produits);
 
-		return "result";
 
-	}
+			prd.setNom(nom);
+			prd.setDescription(description);
+			prd.setEtat(etat);
+			List<Produit> produits = produitRepository.findAll();
+			model.addAttribute("listeProduits",produits);
+		
+		    return "result";
+		
+	  }
 
 	@RequestMapping("/editer")
 	public String editerproduit(Model model, @RequestParam("reference") String reference) {

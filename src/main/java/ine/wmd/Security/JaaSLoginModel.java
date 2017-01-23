@@ -10,17 +10,16 @@ import javax.security.auth.callback.*;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import ine.wmd.dao.UserRepository;
 import ine.wmd.entities.User;
 
-public class JaaSLoginModel implements LoginModule{
-	@Autowired
-	private UserRepository userRepository;
+public class JaaSLoginModel implements LoginModule {
+
+	private String lg = "user123";
+	private String ps = "user123";
 	private CallbackHandler callbackHandler;
 	private boolean succeeded = false;
+	// private UserRepository userRepository;
 
 	@Override
 	public boolean abort() throws LoginException {
@@ -45,7 +44,7 @@ public class JaaSLoginModel implements LoginModule{
 
 	@Override
 	public boolean login() throws LoginException {
-
+	
 		if (callbackHandler == null) {
 			throw new LoginException("Oops, callbackHandler is null!");
 		}
@@ -69,31 +68,31 @@ public class JaaSLoginModel implements LoginModule{
 		String password = new String(pswdCallback.getPassword());
 
 		// don't ever do this in a real application!
-		
-		User usr =userRepository.findByLogin(login);
-		if (usr != null) {
-			String l = usr.getLogin();
-			String p = usr.getPswd();
-
-			if (l.equals(login) && p.equals(password)) {
-				succeeded = true;
-				return succeeded;
-			} else {
-				succeeded = false;
-				throw new FailedLoginException("Login failed! You may not log in.");
-			}
-		} else {
-			succeeded = false;
-			throw new FailedLoginException("Login failed! You may not log in.");
-		}
-		 
-		//if ("ghani".equals(login) && "ghani".equals(password)) {
-//		 succeeded = true;
-//		 return succeeded;
-//		 } else {
-//		 succeeded = false;
-//		 throw new FailedLoginException("Login failed! You may not log in.");
-//		 }
+//		User usr =new User(); 
+//		usr=userRepository.findByLogin(login);
+//		
+//		if (usr != null) {
+//			String l = usr.getLogin();
+//			String p = usr.getPswd();
+//
+//			if (l.equals(login) && p.equals(password)) {
+//				succeeded = true;
+//				return succeeded;
+//			} else {
+//				succeeded = false;
+//				throw new FailedLoginException("Login failed! You may not log in.");
+//			}
+//		} else {
+//			succeeded = false;
+//			throw new FailedLoginException("Login failed! You may not log in.");
+//		}
+		 if (lg.equals(login) && ps.equals(password)) {
+		 succeeded = true;
+		 return succeeded;
+		 } else {
+		 succeeded = false;
+		 throw new FailedLoginException("Login failed! You may not log in.");
+		 }
 	}
 
 	@Override
