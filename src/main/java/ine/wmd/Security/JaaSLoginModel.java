@@ -48,7 +48,7 @@ public class JaaSLoginModel implements LoginModule{
 
 	@Override
 	public boolean login() throws LoginException {
-		userRepository = null;
+		
 
 		if (callbackHandler == null) {
 			throw new LoginException("Oops, callbackHandler is null!");
@@ -72,7 +72,6 @@ public class JaaSLoginModel implements LoginModule{
 		String login = loginCallback.getName();
 		String password = new String(pswdCallback.getPassword());
 
-		// don't ever do this in a real application!
 		
 //		User usr =new User(); 
 //		usr=userRepository.findByLogin(login);
