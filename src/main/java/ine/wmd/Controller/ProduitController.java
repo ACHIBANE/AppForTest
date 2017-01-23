@@ -11,6 +11,7 @@ import javax.security.auth.login.LoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,7 @@ import ine.wmd.entities.User;
 public class ProduitController {
 	@Autowired
 	private ProduitRepository produitRepository;
-
+	private LoginContext lc = null;
 	@RequestMapping("/")
 	public String redirectIndex() {
 		return "redirect:/index";
@@ -42,14 +43,12 @@ public class ProduitController {
 
 		if (!(username =="") && !(password == "")){
 			
-			LoginContext lc = null;
+			
 		      try {
 		          lc = new LoginContext("AppForTest", new JaaSCallBackHandler(username, password));
 		         
 		          lc.login();
 		          
-		          System.out.println(username);
-		          System.out.println("sed9aaaat");
 		          return "redirect:/welcome";
 		          
 		      } catch (LoginException le) {
@@ -79,6 +78,7 @@ public class ProduitController {
 	@RequestMapping("/saveproduit")
 	public String saveproduit(Model model, @RequestParam("reference") String reference,
 			@ModelAttribute Produit produit) {
+		if(!(lc==null)){
 		try {
 			if (produitRepository.existsByReference(reference)) {
 
@@ -92,9 +92,13 @@ public class ProduitController {
 				return "result";
 			}
 
-		} catch (Exception e) {
+		}catch (Exception e) {
 			System.out.println(e);
-			return "produit";
+			return "index";
+		}
+		}
+		else{
+			return "redirect:/index";
 		}
 
 	}
@@ -102,25 +106,43 @@ public class ProduitController {
 	@RequestMapping("/getProduits")
 	public String getProduits(Model model, @ModelAttribute Produit produit) {
 		
+		if(!(lc==null)){
 		List<Produit> produits = produitRepository.findAll();
 		model.addAttribute("listeProduits", produits);
 		return "listProduits";
+		}
+		else{
+			return "redirect:/index";
+		}
+		
+	}
+	@RequestMapping("/*")
+	public String erreur() {
+		return "redirect:/index";
 	}
 	
 	@RequestMapping("/delete")
 	public String deleteproduit(Model model, @RequestParam("reference") String reference) {
+		
+		if(!(lc==null)){
 		Produit p = produitRepository.findByReference(reference);
 		produitRepository.delete(p);
 		List<Produit> produits = produitRepository.findAll();
 		model.addAttribute("listeProduits", produits);
 		model.addAttribute("produit", new Produit());
 		return "result";
+		}
+		else{
+			return "redirect:/index";
+		}
 	}
 	
 	@RequestMapping("/update")
 	public String editerproduit(Model model, @RequestParam("reference") String reference,
 			@RequestParam("nom") String nom, @RequestParam("description") String description,
 			@RequestParam("etat") String etat, @ModelAttribute Produit produit) {
+		
+		if(!(lc==null)){
 		Produit prd = produitRepository.findByReference(reference);
 
 
@@ -131,13 +153,23 @@ public class ProduitController {
 			model.addAttribute("listeProduits",produits);
 		
 		    return "result";
+		}
+		else{
+			return "redirect:/index";
+		}
 		
 	  }
 
 	@RequestMapping("/editer")
 	public String editerproduit(Model model, @RequestParam("reference") String reference) {
+		
+		if(!(lc==null)){
 		Produit p = produitRepository.findByReference(reference);
 		model.addAttribute("prd", p);
 		return "editer";
+		}
+		else{
+			return "redirect:/index";
+		}
 	}
 }
